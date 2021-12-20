@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { ItemWrapper } from './ItemWrapper';
 
 import trashIcon from '../assets/icons/trash/trash.png'
+import editIcon from '../assets/icons/edit/edit.png'
 
 export interface Task {
   id: number;
@@ -49,11 +50,20 @@ export function TasksList({ tasks, toggleTaskDone, removeTask, ...rest }: TasksL
                   )}
                 </View>
 
-                <Text 
-                  style={styles.taskText}
-                >
-                  {item.title}
-                </Text>
+                { item.done ? (
+                  <Text 
+                    style={styles.taskTextDone}
+                  >
+                    {item.title}
+                  </Text>
+                ) : (
+                  <Text 
+                    style={styles.taskText}
+                  >
+                    {item.title}
+                  </Text>
+                ) }
+                
               </TouchableOpacity>
             </View>
 
