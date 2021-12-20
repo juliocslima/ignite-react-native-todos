@@ -68,6 +68,13 @@ export function TasksList({ tasks, toggleTaskDone, removeTask, ...rest }: TasksL
             </View>
 
             <TouchableOpacity
+              testID={`edit-${index}`}
+              onPress={() => removeTask(item.id)}
+            >
+              <Image source={editIcon} />
+            </TouchableOpacity>
+
+            <TouchableOpacity
               testID={`trash-${index}`}
               style={{ paddingHorizontal: 24 }}
               onPress={() => removeTask(item.id)}
