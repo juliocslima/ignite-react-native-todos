@@ -14,19 +14,20 @@ export function Home() {
       const taskExists = tasks.find(task => task.title === newTaskTitle);
 
       if(taskExists) {
-        Alert.alert('Task já cadastrada', 'Você não pode cadastrar uma task com o mesmo nome');
+        Alert.alert(
+          'Task já cadastrada', 
+          'Você não pode cadastrar uma task com o mesmo nome'
+        );
         return;
+      } else {
+        const newTask = {
+          id: tasks.length + 1,
+          title: newTaskTitle,
+          done: false
+        };
+  
+        setTasks(oldState => [...oldState, newTask]);
       }
-
-      const newTask = {
-        id: tasks.length + 1,
-        title: newTaskTitle,
-        done: false
-      };
-
-      setTasks(oldState => [...tasks, newTask]);
-      
-
     }
   }
 
@@ -44,9 +45,33 @@ export function Home() {
   }
 
   function handleRemoveTask(id: number) {
-    setTasks(oldState => oldState.filter(
-      task => task.id !== id
-    ));
+    Alert.alert(
+      "Remover item",
+      "Tem certeza que você deseja remover esse item?",
+      [
+        {
+          text: "NÃO",
+          style: "cancel"
+        },
+        { text: "SIM", onPress: () => {
+          setTasks(oldState => oldState.filter(
+            task => task.id !== id
+          ));
+        }}
+      ]
+    );
+  }
+
+  function handleEditTask(id: number, newTitle: string) {
+    const updatedTasks = tasks.map(task => ({...task}));
+    const taskToBeEdited = updatedTasks.find(task => task.id === id);
+
+    if(!taskToBeEdited) {
+      return;
+    }
+
+    taskToBeEdited.title = newTitle;
+    setTasks(updatedTasks);
   }
 
   return (
@@ -58,7 +83,8 @@ export function Home() {
       <TasksList 
         tasks={tasks} 
         toggleTaskDone={handleToggleTaskDone}
-        removeTask={handleRemoveTask} 
+        removeTask={handleRemoveTask}
+        editTask={handleEditTask} 
       />
     </View>
   )
